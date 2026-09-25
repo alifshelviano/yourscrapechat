@@ -1,4 +1,4 @@
-// File: C:\Users\alifs\Documents\yourscrapebot\yourscrapechat\app\login\page.tsx
+// File: /vercel/share/v0-project/app/login/page.tsx
 import * as entry from '../../../../app/login/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -6,6 +6,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 type User = { email: string }
 type AuthContextValue = {
   user: User | null
+  ready: boolean
   signIn: (opts: { email: string; password: string }) => Promise<void>
   signUp: (opts: { email: string; password: string }) => Promise<void>
   signOut: () => void
@@ -17,6 +18,7 @@ const STORAGE_KEY = "auth_user"
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     try {
@@ -24,12 +26,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (raw) setUser(JSON.parse(raw))
     } catch {
       // ignore corrupted storage
+    } finally {
+      setReady(true)
     }
   }, [])
 
   const persist = (u: User | null) => {
-    if (u) localStorage.setItem(STORAGE_KEY, JSON.stringify(u))
-    else localStorage.removeItem(STORAGE_KEY)
+    try {
+      if (u) localStorage.setItem(STORAGE_KEY, JSON.stringify(u))
+      else localStorage.removeItem(STORAGE_KEY)
+    } catch {
+      // Dummy auth still works when browser storage is unavailable.
+    }
   }
 
   const signIn = useCallback(async ({ email }: { email: string; password: string }) => {
@@ -53,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     persist(null)
   }, [])
 
-  const value: AuthContextValue = { user, signIn, signUp, signOut }
+  const value: AuthContextValue = { user, ready, signIn, signUp, signOut }
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
