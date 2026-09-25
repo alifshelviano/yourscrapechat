@@ -130,7 +130,7 @@ const translations = {
 }
 
 export default function SentimentAnalyzer() {
-  const { user, signOut } = useAuth()
+    const { user, ready, signOut } = useAuth()
   const router = useRouter()
   const [language, setLanguage] = useState<Language>("en")
   const t = translations[language]
@@ -165,10 +165,10 @@ export default function SentimentAnalyzer() {
   }
 
   useEffect(() => {
-    if (!user) {
+    if (ready && !user) {
       router.replace("/login")
     }
-  }, [user, router])
+  }, [ready, user, router])
 
   useEffect(() => {
     setMessages((prev) => prev.map((msg) => (msg.id === "welcome" ? { ...msg, content: t.welcomeMessage } : msg)))

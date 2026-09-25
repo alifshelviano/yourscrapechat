@@ -19,8 +19,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const submitLogin = async () => {
     setError(null)
     if (!email || !password) {
       setError("Please enter email and password.")
@@ -35,6 +34,11 @@ export default function LoginPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    void submitLogin()
   }
 
   return (
@@ -71,7 +75,7 @@ export default function LoginPage() {
               />
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" onClick={() => void submitLogin()} className="w-full" disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </Button>
             <p className="text-sm text-muted-foreground text-center">
