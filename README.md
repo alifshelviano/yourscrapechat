@@ -1,4 +1,4 @@
-# Google Play Sentiment Analyzer
+# Sentiment Analyzer
 
 
 Your project is live at:
