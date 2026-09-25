@@ -77,7 +77,7 @@ Buatlah ringkas, profesional, dan fokus pada temuan yang paling penting. Jawab d
     }
 
     const { text } = await generateText({
-      model: google("gemini-1.5-flash", {
+      model: google("gemini-3.8-flash", {
         apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
       }),
       prompt: prompts[language as keyof typeof prompts] || prompts.en,

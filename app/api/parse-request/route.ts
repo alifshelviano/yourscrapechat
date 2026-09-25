@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Message is required" }, { status: 400 })
     }
 
-    const googleModel = google("gemini-2.0-flash", {
+    const googleModel = google("gemini-3.8-flash", {
       apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
     })
 
